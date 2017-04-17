@@ -1,0 +1,6 @@
+[submodule "template/clockwork/ClockworkCore"]
+	path = template/clockwork/ClockworkCore
+	url = https://github.com/ClockworkDev/ClockworkCore
+[submodule "template/clockwork/Spritesheet.js"]
+	path = template/clockwork/Spritesheet.js
+	url = https://github.com/ClockworkDev/Spritesheet.js
