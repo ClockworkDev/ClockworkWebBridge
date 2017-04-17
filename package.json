@@ -1,0 +1,24 @@
+{
+  "name": "clockwork-web-bridge",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClockworkDev/ClockworkWebBridge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ClockworkDev/ClockworkWebBridge/issues"
+  },
+  "homepage": "https://github.com/ClockworkDev/ClockworkWebBridge#readme",
+  "dependencies": {
+    "decompress": "^4.0.0",
+    "fs-extra": "^2.1.2"
+  },
+  "bin": "./index.js"
+}
