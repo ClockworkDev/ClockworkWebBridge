@@ -12,7 +12,8 @@ function build(path) {
         console.log("Decompressing files");
         decompress(path, tempFolderName).then(files => {
             console.log("Reading manifest");
-            var manifest = require("./" + tempFolderName + "/manifest.json");
+            var manifestText = fs.readFileSync(tempFolderName + "/manifest.json", "utf-8");
+            var manifest = JSON.parse(manifestText);
             fs.removeSync(manifest.name);
             fs.mkdirSync(manifest.name);
             fs.mkdirSync(manifest.name + contentFolderName);
