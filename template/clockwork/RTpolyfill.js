@@ -9,5 +9,5 @@ CLOCKWORKRT.API.appPath=function(){
 CLOCKWORKRT.apps={};
 CLOCKWORKRT.apps.getDependency=function(name,version,callback){
     //Load cached dependencies
-    callback();
+    loadTextFile("dependencies/"+name+"/"+version, callback);
 }

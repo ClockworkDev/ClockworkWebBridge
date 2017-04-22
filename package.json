@@ -18,7 +18,8 @@
   "homepage": "https://github.com/ClockworkDev/ClockworkWebBridge#readme",
   "dependencies": {
     "decompress": "^4.0.0",
-    "fs-extra": "^2.1.2"
+    "fs-extra": "^2.1.2",
+    "request": "^2.81.0"
   },
   "bin": "./index.js"
 }
