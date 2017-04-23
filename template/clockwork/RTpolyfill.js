@@ -4,7 +4,7 @@ CLOCKWORKRT.API.getManifest= function(){
     return /*manifest*/{};
 }
 CLOCKWORKRT.API.appPath=function(){
-    return "/gamefiles";
+    return "gamefiles";
 }
 CLOCKWORKRT.apps={};
 CLOCKWORKRT.apps.getDependency=function(name,version,callback){
