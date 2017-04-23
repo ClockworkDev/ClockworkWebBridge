@@ -5,7 +5,7 @@ const tempFolderName = "ClockworkWebBridgeTemp";
 const contentFolderName = "/gamefiles";
 const templateFolderName = "template";
 
-function build(path) {
+function build(path, outPath) {
     return new Promise(function (resolve, reject) {
         fs.removeSync(tempFolderName);
         fs.mkdirSync(tempFolderName);
@@ -14,26 +14,27 @@ function build(path) {
             console.log("Reading manifest");
             var manifestText = fs.readFileSync(tempFolderName + "/manifest.json", "utf-8");
             var manifest = JSON.parse(manifestText);
-            fs.removeSync(manifest.name);
-            fs.mkdirSync(manifest.name);
-            fs.mkdirSync(manifest.name + contentFolderName);
+            var outputFolder = outPath != "" ? outPath + "/" + manifest.name : manifest.name;
+            fs.removeSync(outputFolder);
+            fs.mkdirSync(outputFolder);
+            fs.mkdirSync(outputFolder + contentFolderName);
             console.log("Copying files");
-            fs.copySync(tempFolderName + "/" + manifest.scope, manifest.name + contentFolderName);
-            fs.copySync(templateFolderName, manifest.name);
-            var RTapis = fs.readFileSync(manifest.name + "/clockwork/RTpolyfill.js", "utf-8");
+            fs.copySync(tempFolderName + "/" + manifest.scope, outputFolder + contentFolderName);
+            fs.copySync(templateFolderName, outputFolder);
+            var RTapis = fs.readFileSync(outputFolder + "/clockwork/RTpolyfill.js", "utf-8");
             var updatedRTapis = RTapis.replace("/*manifest*/{}", JSON.stringify(manifest));
-            fs.writeFileSync(manifest.name + "/clockwork/RTpolyfill.js", updatedRTapis, "utf-8");
+            fs.writeFileSync(outputFolder + "/clockwork/RTpolyfill.js", updatedRTapis, "utf-8");
             fs.removeSync(tempFolderName);
-            fs.mkdirSync(manifest.name + "/dependencies");
+            fs.mkdirSync(outputFolder + "/dependencies");
             console.log("Downloading dependencies");
             var dependencyPromises = [];
             for (var name in manifest.dependencies) {
                 var version = manifest.dependencies[name];
-                dependencyPromises.push(downloadDependency(manifest.name, name, version));
+                dependencyPromises.push(downloadDependency(outputFolder, name, version));
             }
             Promise.all(dependencyPromises).then(function () {
                 console.log("Project exported succesfully");
-                resolve(manifest.name);
+                resolve(outputFolder);
             });
         });
     });
