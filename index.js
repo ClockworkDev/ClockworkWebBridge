@@ -3,7 +3,7 @@ var decompress = require('decompress');
 var request = require('request');
 const tempFolderName = "ClockworkWebBridgeTemp";
 const contentFolderName = "/gamefiles";
-const templateFolderName = "template";
+const templateFolderName = "/template";
 
 function build(path, outPath) {
     return new Promise(function (resolve, reject) {
@@ -20,7 +20,7 @@ function build(path, outPath) {
             fs.mkdirSync(outputFolder + contentFolderName);
             console.log("Copying files");
             fs.copySync(tempFolderName + "/" + manifest.scope, outputFolder + contentFolderName);
-            fs.copySync(templateFolderName, outputFolder);
+            fs.copySync(__dirname+ templateFolderName, outputFolder);
             var RTapis = fs.readFileSync(outputFolder + "/clockwork/RTpolyfill.js", "utf-8");
             var updatedRTapis = RTapis.replace("/*manifest*/{}", JSON.stringify(manifest));
             fs.writeFileSync(outputFolder + "/clockwork/RTpolyfill.js", updatedRTapis, "utf-8");
