@@ -60,5 +60,5 @@ module.exports = build;
 
 var userArguments = process.argv.slice(2);
 if (userArguments.length == 1) {
-    build(userArguments[0]);
+    build(userArguments[0],"");
 }
