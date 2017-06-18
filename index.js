@@ -20,7 +20,7 @@ function build(path, outPath) {
             fs.mkdirSync(outputFolder + contentFolderName);
             console.log("Copying files");
             fs.copySync(tempFolderName + "/" + manifest.scope, outputFolder + contentFolderName);
-            fs.copySync(__dirname+ templateFolderName, outputFolder);
+            fs.copySync(__dirname + templateFolderName, outputFolder);
             var RTapis = fs.readFileSync(outputFolder + "/clockwork/RTpolyfill.js", "utf-8");
             var updatedRTapis = RTapis.replace("/*manifest*/{}", JSON.stringify(manifest));
             fs.writeFileSync(outputFolder + "/clockwork/RTpolyfill.js", updatedRTapis, "utf-8");
@@ -57,8 +57,9 @@ function downloadDependency(manifestName, name, version) {
 }
 
 module.exports = build;
-
-var userArguments = process.argv.slice(2);
-if (userArguments.length == 1) {
-    build(userArguments[0],"");
+if (require.main === module) {
+    var userArguments = process.argv.slice(2);
+    if (userArguments.length == 1) {
+        build(userArguments[0], "");
+    }
 }
