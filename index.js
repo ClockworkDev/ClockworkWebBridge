@@ -7,8 +7,8 @@ const templateFolderName = "/template";
 
 function build(path, outPath) {
     return new Promise(function (resolve, reject) {
-        fs.removeSync(tempFolderName);
-        fs.mkdirSync(tempFolderName);
+        fs.removeSync(outPath+"/"+tempFolderName);
+        fs.mkdirSync(outPath+"/"+tempFolderName);
         console.log("Decompressing files");
         decompress(path, tempFolderName).then(files => {
             console.log("Reading manifest");
@@ -19,12 +19,12 @@ function build(path, outPath) {
             fs.mkdirSync(outputFolder);
             fs.mkdirSync(outputFolder + contentFolderName);
             console.log("Copying files");
-            fs.copySync(tempFolderName + "/" + manifest.scope, outputFolder + contentFolderName);
+            fs.copySync(outPath+"/"+tempFolderName + "/" + manifest.scope, outputFolder + contentFolderName);
             fs.copySync(__dirname + templateFolderName, outputFolder);
             var RTapis = fs.readFileSync(outputFolder + "/clockwork/RTpolyfill.js", "utf-8");
             var updatedRTapis = RTapis.replace("/*manifest*/{}", JSON.stringify(manifest));
             fs.writeFileSync(outputFolder + "/clockwork/RTpolyfill.js", updatedRTapis, "utf-8");
-            fs.removeSync(tempFolderName);
+            fs.removeSync(outPath+"/"+tempFolderName);
             fs.mkdirSync(outputFolder + "/dependencies");
             console.log("Downloading dependencies");
             var dependencyPromises = [];
