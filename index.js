@@ -10,9 +10,9 @@ function build(path, outPath) {
         fs.removeSync(outPath+"/"+tempFolderName);
         fs.mkdirSync(outPath+"/"+tempFolderName);
         console.log("Decompressing files");
-        decompress(path, tempFolderName).then(files => {
+        decompress(path, outPath+"/"+tempFolderName).then(files => {
             console.log("Reading manifest");
-            var manifestText = fs.readFileSync(tempFolderName + "/manifest.json", "utf-8");
+            var manifestText = fs.readFileSync(outPath+"/"+tempFolderName + "/manifest.json", "utf-8");
             var manifest = JSON.parse(manifestText);
             var outputFolder = outPath != "" ? outPath + "/" + manifest.name : manifest.name;
             fs.removeSync(outputFolder);
