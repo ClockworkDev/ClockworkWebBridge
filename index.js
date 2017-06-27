@@ -7,24 +7,24 @@ const templateFolderName = "/template";
 
 function build(path, outPath) {
     return new Promise(function (resolve, reject) {
-        fs.removeSync(outPath+"/"+tempFolderName);
-        fs.mkdirSync(outPath+"/"+tempFolderName);
+        fs.removeSync(outPath + "/" + tempFolderName);
+        fs.mkdirSync(outPath + "/" + tempFolderName);
         console.log("Decompressing files");
-        decompress(path, outPath+"/"+tempFolderName).then(files => {
+        decompress(path, outPath + "/" + tempFolderName).then(files => {
             console.log("Reading manifest");
-            var manifestText = fs.readFileSync(outPath+"/"+tempFolderName + "/manifest.json", "utf-8");
+            var manifestText = fs.readFileSync(outPath + "/" + tempFolderName + "/manifest.json", "utf-8");
             var manifest = JSON.parse(manifestText);
             var outputFolder = outPath != "" ? outPath + "/" + manifest.name : manifest.name;
             fs.removeSync(outputFolder);
             fs.mkdirSync(outputFolder);
             fs.mkdirSync(outputFolder + contentFolderName);
             console.log("Copying files");
-            fs.copySync(outPath+"/"+tempFolderName + "/" + manifest.scope, outputFolder + contentFolderName);
+            fs.copySync(outPath + "/" + tempFolderName + "/" + manifest.scope, outputFolder + contentFolderName);
             fs.copySync(__dirname + templateFolderName, outputFolder);
             var RTapis = fs.readFileSync(outputFolder + "/clockwork/RTpolyfill.js", "utf-8");
             var updatedRTapis = RTapis.replace("/*manifest*/{}", JSON.stringify(manifest));
             fs.writeFileSync(outputFolder + "/clockwork/RTpolyfill.js", updatedRTapis, "utf-8");
-            fs.removeSync(outPath+"/"+tempFolderName);
+            fs.removeSync(outPath + "/" + tempFolderName);
             fs.mkdirSync(outputFolder + "/dependencies");
             console.log("Downloading dependencies");
             var dependencyPromises = [];
@@ -48,7 +48,7 @@ function downloadDependency(manifestName, name, version) {
                     downloadDependency(manifestName, name, version).then(resolve);
                 } else {
                     fs.mkdirSync(manifestName + "/dependencies/" + name);
-                    fs.writeFileSync(manifestName + "/dependencies/" + name + "/" + version, body, "utf-8");
+                    fs.writeFileSync(manifestName + "/dependencies/" + name + "/" + version + ".js", body, "utf-8");
                     resolve();
                 }
             }
