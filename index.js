@@ -42,7 +42,7 @@ function build(path, outPath) {
 
 function downloadDependency(manifestName, name, version) {
     return new Promise(function (resolve, reject) {
-        request('http://cwpm.azurewebsites.net/api/packages/' + name + "/" + version, function (error, response, body) {
+        request('https://clockworkdev.github.io/ClockworkPackages/packages/' + name + "/" + version + '/components.js', function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 if (body == "") {
                     downloadDependency(manifestName, name, version).then(resolve);
